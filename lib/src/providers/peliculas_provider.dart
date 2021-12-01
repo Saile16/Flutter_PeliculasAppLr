@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
@@ -9,6 +10,23 @@ class PeliculasProvider{
   String _apykey='39d261ac58802dce7bc35053d809e528';
   String _url = 'api.themoviedb.org';
   String _language='es-ES';
+
+  int _popularesPage=0;
+
+  List<Pelicula> _populares= [];
+  
+  //el stream controller no tienes que importar dart:async
+  //usaremos el broadcast podemos tner muchos lugares escuchando la emisión del stream
+  final _popularesStreamController = StreamController<List<Pelicula>>.broadcast();
+
+  //ya tenemos la manera de emitir las peliculas
+  Function(List<Pelicula>) get popularesSink => _popularesStreamController.sink.add;
+  //ahora necesitamos escuchar esas peliculas
+  Stream<List<Pelicula>> get popularesStream => _popularesStreamController.stream;
+
+  void disposeStreams(){
+    _popularesStreamController.close();
+  }
 
   Future<List<Pelicula>> _procesarRespuesta(Uri url) async{
     ///recordar importar librerias tanto de http y de convert
@@ -39,12 +57,24 @@ class PeliculasProvider{
 
   Future<List<Pelicula>> getPopulares() async{
 
+    //esto es para el infinite scroll
+    _popularesPage++;
+    
     final url = Uri.https(_url, '3/movie/popular',{
 
       'api_key' : _apykey,
       'language': _language,
+      'page'    :_popularesPage.toString(),
     });
     
-    return await _procesarRespuesta(url);
+    final resp= await _procesarRespuesta(url);
+
+    _populares.addAll(resp);
+    //agregamos las peliculas al sink
+    popularesSink(_populares);
+
+    return resp;
+
+    // return await _procesarRespuesta(url);
   }
 }
