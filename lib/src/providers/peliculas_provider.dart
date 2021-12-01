@@ -13,6 +13,8 @@ class PeliculasProvider{
 
   int _popularesPage=0;
 
+  bool _cargando = false;
+
   List<Pelicula> _populares= [];
   
   //el stream controller no tienes que importar dart:async
@@ -56,9 +58,14 @@ class PeliculasProvider{
   }
 
   Future<List<Pelicula>> getPopulares() async{
+    
+    //potimizamos para que la peticion no sea a cada momento
+    if(_cargando)return [];
 
+    _cargando=true;
     //esto es para el infinite scroll
     _popularesPage++;
+    
     
     final url = Uri.https(_url, '3/movie/popular',{
 
@@ -72,6 +79,8 @@ class PeliculasProvider{
     _populares.addAll(resp);
     //agregamos las peliculas al sink
     popularesSink(_populares);
+
+    _cargando=false;
 
     return resp;
 
