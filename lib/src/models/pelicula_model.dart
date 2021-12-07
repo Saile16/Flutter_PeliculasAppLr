@@ -23,6 +23,7 @@ class Peliculas{
 }
 
 class Pelicula {
+  String? uniqueId;
   late bool adult;
   late String backdropPath;
   late List<int> genreIds;
@@ -57,6 +58,8 @@ class Pelicula {
 
   Pelicula.fromJsonMap(Map<String,dynamic> json ){
     
+
+
     adult             = json['adult'];
     backdropPath      = json['backdrop_path'];
     genreIds          = json['genre_ids'].cast<int>();
