@@ -7,7 +7,7 @@ import 'package:peliculas/src/models/pelicula_model.dart';
 
 class PeliculasProvider{
 
-  String _apykey='39d261ac58802dce7bc35053d809e528';
+  String _apikey='39d261ac58802dce7bc35053d809e528';
   String _url = 'api.themoviedb.org';
   String _language='es-ES';
 
@@ -49,7 +49,7 @@ class PeliculasProvider{
 
     final url = Uri.https(_url, '3/movie/now_playing',{
 
-      'api_key' : _apykey,
+      'api_key' : _apikey,
       'language': _language,
     });
     
@@ -69,7 +69,7 @@ class PeliculasProvider{
     
     final url = Uri.https(_url, '3/movie/popular',{
 
-      'api_key' : _apykey,
+      'api_key' : _apikey,
       'language': _language,
       'page'    :_popularesPage.toString(),
     });
