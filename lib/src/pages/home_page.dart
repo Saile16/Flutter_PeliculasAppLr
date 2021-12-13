@@ -12,7 +12,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //iniciamos obteniedo las peliculas populares
+    //iniciamos obteniendo las peliculas populares
     peliculasProvider.getPopulares();
     return Scaffold(
       appBar: AppBar(
@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
         ],
       ),
       //el safearea es usado para evitar esos dispositivos con algun bloqueo en la pantalla
-      //estilos del celular(como posicion de camara delantera etc,)
+      //estilos del celular(como posicion de camara delantera etc).
       body:Container(
         child: Column(
           //separacion
